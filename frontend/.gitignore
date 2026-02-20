@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 README.md
+
+# Environment variables
+.env
