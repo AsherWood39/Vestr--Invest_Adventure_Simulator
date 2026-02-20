@@ -73,7 +73,7 @@ function App() {
       />
 
       {view === 'home' ? (
-        <main className="relative pt-32 pb-20 px-6">
+        <main className="relative pt-15 pb-10 px-2">
           {/* Hero Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -87,7 +87,7 @@ function App() {
             <h1 className="text-6xl md:text-8xl font-display font-bold leading-tight mb-8">
               {userData ? `Welcome back, ${userData.username}` : 'The Future of'} <br />
               <span className="text-transparent bg-clip-text bg-linear-to-r from-gold via-gold-dark to-gold animate-gradient-x">
-                {userData ? userData.goal : 'Invest Gaming'}
+                {userData ? userData.goal : 'Career Break'}
               </span>
             </h1>
             <p className="text-text/60 text-xl md:text-2xl max-w-2xl mx-auto mb-12 leading-relaxed">
