@@ -63,6 +63,17 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
             setIsSubmitting(true)
             setError(null)
             try {
+                // Map display names to backend choice keys
+                const avatarKeyMap: Record<string, string> = {
+                    'Professional Clara': 'CLARA',
+                    'Student Maya': 'MAYA',
+                }
+                const goalKeyMap: Record<string, string> = {
+                    'Family Fund': 'FAMILY FUND',
+                    'Career Break': 'CAREER BREAK',
+                    'Wealth Building': 'WEALTH BUILDING',
+                }
+
                 const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'}/users/profiles/register/`, {
                     method: 'POST',
                     headers: {
@@ -71,8 +82,8 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                     body: JSON.stringify({
                         username: data.username,
                         password: password,
-                        avatar: data.avatar.toUpperCase().replace(' ', '_'), // Handle format matching backend choices
-                        goal: data.goal.toUpperCase()
+                        avatar: avatarKeyMap[data.avatar] || data.avatar.toUpperCase(),
+                        goal: goalKeyMap[data.goal] || data.goal.toUpperCase(),
                     }),
                 });
 
@@ -81,8 +92,15 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                     throw new Error(errData.error || 'Registration failed')
                 }
 
-                await response.json()
-                onSubmitSuccess(data) // Pass the original data for UI consistency
+                const profileData = await response.json()
+                // Use authoritative data from the API (ensures xp starts at 0)
+                onSubmitSuccess({
+                    username: profileData.user.username,
+                    avatar: profileData.avatar,
+                    experience: data.experience,
+                    goal: profileData.goal,
+                    xp: profileData.xp ?? 0,
+                })
             } catch (err: any) {
                 console.error('Registration error:', err)
                 setError(err.message || 'An unexpected error occurred.')

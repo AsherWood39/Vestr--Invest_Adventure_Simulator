@@ -18,13 +18,15 @@ export default function Profile({ userData }: ProfileProps) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        if (!userData?.username) return;
+
         const fetchProfileData = async () => {
             try {
-                // Fetch first profile for now (since we don't have full auth yet)
-                const profiles = await apiClient.get<UserProfile[]>('/users/profiles/');
-                if (profiles.length > 0) {
-                    setProfile(profiles[0]);
-                }
+                // Fetch only the logged-in user's profile
+                const profiles = await apiClient.get<UserProfile[]>(
+                    `/users/profiles/?username=${encodeURIComponent(userData.username)}`
+                );
+                if (profiles.length > 0) setProfile(profiles[0]);
 
                 const progressData = await apiClient.get<UserScenarioProgress[]>('/scenarios/progress/');
                 setProgress(progressData);
@@ -36,7 +38,7 @@ export default function Profile({ userData }: ProfileProps) {
         };
 
         fetchProfileData();
-    }, []);
+    }, [userData?.username]);
 
     if (!userData && !profile) return null;
 
