@@ -28,3 +28,6 @@ class UserScenarioProgress(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.scenario.name} - {self.status}"
+
+    class Meta:
+        unique_together = ['user', 'scenario']

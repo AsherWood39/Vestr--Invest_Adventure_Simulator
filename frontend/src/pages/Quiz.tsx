@@ -78,6 +78,11 @@ export default function Quiz({ scenario, isLoggedIn, username, onBack, onComplet
                 username: username,
                 amount: score
             })
+            // Mark scenario as solved
+            await apiClient.post('/scenarios/progress/complete_scenario/', {
+                username: username,
+                scenario_id: scenario.id
+            })
             onComplete(score)
         } catch (err) {
             console.error('Failed to save XP:', err)

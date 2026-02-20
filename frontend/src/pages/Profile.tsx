@@ -5,7 +5,9 @@ import type { UserProfile, UserScenarioProgress } from '../types'
 import type { OnboardingData } from '../components/OnboardingModal'
 import ProfileImg from '../assets/Profile.svg'
 import ActiveImg from '../assets/active.svg'
+import NiyaImg from '../assets/Niya.svg'
 import RachelImg from '../assets/Rachel.svg'
+import TinaImg from '../assets/Tina.svg'
 import { Loader2 } from 'lucide-react'
 
 interface ProfileProps {
@@ -28,7 +30,9 @@ export default function Profile({ userData }: ProfileProps) {
                 );
                 if (profiles.length > 0) setProfile(profiles[0]);
 
-                const progressData = await apiClient.get<UserScenarioProgress[]>('/scenarios/progress/');
+                const progressData = await apiClient.get<UserScenarioProgress[]>(
+                    `/scenarios/progress/?username=${encodeURIComponent(userData.username)}`
+                );
                 setProgress(progressData);
             } catch (err) {
                 console.error('Failed to fetch profile data:', err);
@@ -113,18 +117,32 @@ export default function Profile({ userData }: ProfileProps) {
 
                     <div>
                         <h2 className="text-2xl font-display font-medium mb-6">Scenarios Completed :</h2>
-                        <div className="flex gap-4">
-                            {progress.filter(p => p.status === 'SOLVED').length > 0 ? (
-                                progress.filter(p => p.status === 'SOLVED').map((_, i) => (
-                                    <div key={i} className="w-20 h-20 rounded-2xl overflow-hidden border border-white/10 bg-white/5 p-1 group">
-                                        <div className="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                        {/* Fallback image logic could go here */}
-                                        <img src={RachelImg} alt="Scenario" className="w-full h-full object-cover rounded-xl" />
-                                    </div>
-                                ))
-                            ) : (
-                                <p className="text-text/20 italic pl-5">No scenarios conquered yet.</p>
-                            )}
+                        <div className="flex gap-4 flex-wrap">
+                            {(() => {
+                                const solvedScenarios = progress
+                                    .filter(p => p.status === 'SOLVED')
+                                    .filter((p, index, self) =>
+                                        index === self.findIndex((t) => t.scenario_details?.id === p.scenario_details?.id)
+                                    );
+
+                                if (solvedScenarios.length > 0) {
+                                    return solvedScenarios.map((p) => {
+                                        const name = p.scenario_details?.name;
+                                        const img = name === 'NIYA' ? NiyaImg : name === 'TINA' ? TinaImg : RachelImg;
+                                        return (
+                                            <div key={p.id} className="w-20 h-20 rounded-2xl overflow-hidden border border-white/10 bg-white/5 p-1 group relative">
+                                                <div className="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                                <img
+                                                    src={img}
+                                                    alt={p.scenario_details?.name_display || 'Scenario'}
+                                                    className="w-full h-full object-cover rounded-xl"
+                                                />
+                                            </div>
+                                        );
+                                    });
+                                }
+                                return <p className="text-text/20 italic pl-5">No scenarios conquered yet.</p>;
+                            })()}
                         </div>
                     </div>
                 </motion.div>
