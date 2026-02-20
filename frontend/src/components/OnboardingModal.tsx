@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronRight, ChevronLeft, User, GraduationCap, Target, Sparkles, Lock } from 'lucide-react'
+import { X, ChevronRight, ChevronLeft, User, GraduationCap, Target, Sparkles, Lock, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 
 interface OnboardingModalProps {
@@ -13,6 +13,7 @@ export interface OnboardingData {
     avatar: string
     experience: 'Newbie' | 'Intermediate'
     goal: string
+    xp?: number
 }
 
 const steps = [
@@ -52,12 +53,65 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
         goal: '',
     })
 
-    const handleNext = () => {
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [error, setError] = useState<string | null>(null)
+
+    const handleNext = async () => {
         if (currentStep < steps.length - 1) {
             setCurrentStep(prev => prev + 1)
         } else {
-            onComplete(data)
+            setIsSubmitting(true)
+            setError(null)
+            try {
+                // Map display names to backend choice keys
+                const avatarKeyMap: Record<string, string> = {
+                    'Professional Clara': 'CLARA',
+                    'Student Maya': 'MAYA',
+                }
+                const goalKeyMap: Record<string, string> = {
+                    'Family Fund': 'FAMILY FUND',
+                    'Career Break': 'CAREER BREAK',
+                    'Wealth Building': 'WEALTH BUILDING',
+                }
+
+                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'}/users/profiles/register/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: data.username,
+                        password: password,
+                        avatar: avatarKeyMap[data.avatar] || data.avatar.toUpperCase(),
+                        goal: goalKeyMap[data.goal] || data.goal.toUpperCase(),
+                    }),
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json()
+                    throw new Error(errData.error || 'Registration failed')
+                }
+
+                const profileData = await response.json()
+                // Use authoritative data from the API (ensures xp starts at 0)
+                onSubmitSuccess({
+                    username: profileData.user.username,
+                    avatar: profileData.avatar,
+                    experience: data.experience,
+                    goal: profileData.goal,
+                    xp: profileData.xp ?? 0,
+                })
+            } catch (err: any) {
+                console.error('Registration error:', err)
+                setError(err.message || 'An unexpected error occurred.')
+                setIsSubmitting(false)
+            }
         }
+    }
+
+    const onSubmitSuccess = (onboardingData: OnboardingData) => {
+        setIsSubmitting(false)
+        onComplete(onboardingData)
     }
 
     const handleBack = () => {
@@ -225,17 +279,29 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                                 <button
                                     onClick={handleNext}
                                     disabled={
-                                        currentStep === 0 ? (!data.username || !password) :
+                                        isSubmitting ||
+                                        (currentStep === 0 ? (!data.username || !password) :
                                             currentStep === 1 ? !data.avatar :
-                                                currentStep === 3 ? !data.goal : false
+                                                currentStep === 3 ? !data.goal : false)
                                     }
                                     className="px-6 py-3 bg-gold text-background font-bold rounded-xl flex items-center gap-2 hover:scale-105 transition-transform disabled:opacity-50 disabled:grayscale disabled:hover:scale-100"
                                 >
-                                    {currentStep === steps.length - 1 ? 'Begin Quest' : 'Continue'}
-                                    <ChevronRight className="w-4 h-4" />
+                                    {isSubmitting ? (
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                    ) : (
+                                        <>
+                                            {currentStep === steps.length - 1 ? 'Begin Quest' : 'Continue'}
+                                            <ChevronRight className="w-4 h-4" />
+                                        </>
+                                    )}
                                 </button>
                             </div>
                         </div>
+                        {error && (
+                            <p className="mt-4 text-center text-red-500 text-sm font-medium bg-red-500/10 py-2 rounded-lg animate-shake">
+                                {error}
+                            </p>
+                        )}
                     </motion.div>
                 </>
             )}

@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: vestr-backend
+    runtime: python
+    rootDir: backend # This tells Render to look in the backend folder
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn core.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: vestr-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://vestr-invest-adventure-simulator-cvprvjwyk.vercel.app/"
+
+databases:
+  - name: vestr-db
+    plan: free
