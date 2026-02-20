@@ -3,3 +3,5 @@ djangorestframework>=3.14
 django-cors-headers>=4.3
 gunicorn
 whitenoise
+dj-database-url
+psycopg2-binary

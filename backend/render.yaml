@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: vestr-backend
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn core.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: vestr-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "*" # Replace with your Render URL later for better security
+      - key: CORS_ALLOWED_ORIGINS
+        value: "http://localhost:5173" # Add your Vercel URL here
+
+databases:
+  - name: vestr-db
+    plan: free # Use 'free' for the database as well
