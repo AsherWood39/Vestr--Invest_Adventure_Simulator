@@ -1,73 +1,64 @@
-# React + TypeScript + Vite
+# Vestr — Invest Adventure Simulator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Vestr is an immersive, gamified financial education platform designed to empower users through branching narrative adventures in the world of investing.
 
-Currently, two official plugins are available:
+## ✨ Core Aesthetic: Black & Gold
+The platform features a custom-built, premium **Black and Gold** metallic theme, optimized for a high-end, serious but engaging investment experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Background**: Deep obsidian black with subtle radial gradients.
+- **Accents**: Metallic gold highlights for primary actions and highlights.
+- **Glassmorphism**: Subtle paper-like overlays with blurred backgrounds for data containers.
 
-## React Compiler
+## 🚀 Current Progress
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Interactive Landing Page
+A high-conversion landing page featuring:
+- Hero section with entry animations.
+- Feature previews (Safety Oasis, Market Jungle, Legacy Peak).
+- Responsive, sticky navigation with XP tracking.
 
-## Expanding the ESLint configuration
+### 2. Personalization Onboarding Flow
+A multi-step onboarding journey triggered by the "Start Expedition" quest:
+- **Avatar Selection**: Players choose their persona (e.g., "Professional Clara", "Student Maya").
+- **Experience Calibration**: Adapts content for "Newbies" or "Intermediate" investors.
+- **Goal Setting**: Tracks personal motivations like "Family Fund" or "Career Break".
+- **Enter**: "Begin Quest" → First adventure scene
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 3. Dynamic UI
+The application state reacts to user choices:
+- Welcome messages personalized based on selected persona and goal.
+- Live XP counter initialization.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠 Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Framework**: [React 19](https://react.dev/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [Lucide React](https://lucide.dev/)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🏁 Getting Started
+
+### Prerequisites
+- Node.js (Latest LTS recommended)
+- npm or yarn
+
+### Installation
+1. Clone the repository.
+2. Navigate to the `frontend` directory.
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Development
+Run the local development server:
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Build
+Generate a production-ready build:
+```bash
+npm run build
 ```
