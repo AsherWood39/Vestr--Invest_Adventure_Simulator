@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import type { OnboardingData } from '../components/OnboardingModal'
 import ProfileImg from '../assets/Profile.svg'
-import ActiveImg from '../assets/Active.svg'
+import ActiveImg from '../assets/active.svg'
 import RachelImg from '../assets/Rachel.svg'
 import TinaImg from '../assets/Tina.svg'
 
