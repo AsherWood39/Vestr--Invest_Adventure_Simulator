@@ -39,7 +39,7 @@ const enrichScenario = (scenario: Scenario) => {
     } as Scenario;
 };
 
-export default function Explore() {
+export default function Explore({ onEmbark }: { onEmbark: (scenario: Scenario) => void }) {
     const [scenarios, setScenarios] = useState<Scenario[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -102,6 +102,7 @@ export default function Explore() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: idx * 0.1 }}
+                            onClick={() => onEmbark(adventure)}
                             className={`group p-6 rounded-3xl bg-paper/50 border border-gold/10 hover:border-gold/30 transition-all cursor-pointer relative overflow-hidden flex flex-col`}
                         >
                             {/* Background Gradient */}

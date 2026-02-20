@@ -6,12 +6,15 @@ import { LoginModal } from './components/LoginModal'
 import type { OnboardingData } from './components/OnboardingModal'
 import Explore from './pages/Explore'
 import Profile from './pages/Profile'
+import Quiz from './pages/Quiz'
+import type { Scenario } from './types'
 
 function App() {
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false)
   const [isLoginOpen, setIsLoginOpen] = useState(false)
   const [userData, setUserData] = useState<OnboardingData | null>(null)
-  const [view, setView] = useState<'home' | 'explore' | 'profile'>('home')
+  const [view, setView] = useState<'home' | 'explore' | 'profile' | 'quiz'>('home')
+  const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null)
 
   const handleStartExpedition = () => {
     setIsOnboardingOpen(true)
@@ -31,6 +34,11 @@ function App() {
     console.log('Onboarding complete:', data)
     setUserData(data)
     setIsOnboardingOpen(false)
+  }
+
+  const handleEmbark = (scenario: Scenario) => {
+    setSelectedScenario(scenario)
+    setView('quiz')
   }
 
   return (
@@ -205,10 +213,24 @@ function App() {
           </div>
         </main>
       ) : view === 'explore' ? (
-        <Explore />
+        <Explore onEmbark={handleEmbark} />
+      ) : view === 'quiz' ? (
+        <Quiz
+          scenario={selectedScenario!}
+          isLoggedIn={!!userData}
+          username={userData?.username}
+          onBack={() => setView('explore')}
+          onComplete={(xp: number) => {
+            if (userData) {
+              setUserData({ ...userData, xp: (userData.xp || 0) + xp })
+            }
+            setView('profile')
+          }}
+        />
       ) : (
         <Profile userData={userData} />
-      )}
+      )
+      }
     </div>
   )
 }

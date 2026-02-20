@@ -24,14 +24,21 @@ A web-based gamified investment simulator that guides users through branching fi
 - **Modal Navigation** — "Start Expedition" in the Login modal seamlessly transitions to the Onboarding modal.
 
 ### Navigation & Layout
-- **Sticky Navigation Bar** — Vestr logo, Explore, Login/Logout, and XP indicator.
+- **Sticky Navigation Bar** — Vestr logo, Explore, Profile, Logout, and XP indicator.
 - **XP Indicator** — Displays current XP in the header; disabled and greyed out when XP is 0.
-- **View Routing** — Client-side routing between `home`, `explore`, and `profile` views.
+- **View Routing** — Client-side routing between `home`, `explore`, `quiz`, and `profile` views.
 
 ### Explore Page
 - **Live Scenario Fetching** — Adventures fetched dynamically from the Django API (`/scenarios/list/`).
 - **Three Archetypes** — Niya *(Stable)*, Rachel *(Strategic)*, Tina *(Dynamic)*, each with unique artwork, tags, gradient, and description.
-- **Loading & Error States** — Spinner while fetching; user-friendly error with a retry button.
+- **Embark Flow** — Clicking a scenario card allows users to start their investment adventure.
+
+### 🎮 Interactive Quiz Engine (New!)
+- **Simulation Challenges** — Real-time branching questions tailored to each scenario (Niya, Rachel, or Tina).
+- **Gamified Feedback** — Instant "correct/incorrect" visual cues with Framer Motion animations.
+- **permanent XP Persistence** — Registered users automatically save their earned XP to the backend on completion.
+- **Guest mode** — Logged-out users can still take quizzes with a warning that results won't be saved.
+- **Reward summary** — Dynamic "Quest Complete" screen with trophy icon and XP summary.
 
 ### Profile Page
 - **Live Profile Data** — Username, avatar, and goal fetched from the backend API.
@@ -43,9 +50,9 @@ A web-based gamified investment simulator that guides users through branching fi
   - *…scales automatically with any XP value*
 
 ### Backend API
-- **Users App** — `UserProfile` model with `avatar`, `goal`, `xp` fields; `/register/` and `/login/` endpoints.
+- **Users App** — `UserProfile` model; `/register/`, `/login/`, and `/add_xp/` endpoints.
 - **Scenarios App** — `Scenario` and `UserScenarioProgress` models; `/scenarios/list/` and `/scenarios/progress/` endpoints.
-- **Quizzes App** — Quiz and answer models (in progress).
+- **Quizzes App** — `QuizQuestion` and `QuizOption` models; dynamic fetching via scenario ID.
 - **CORS** — Configured via `django-cors-headers` for local and production origins.
 - **Production Ready** — `whitenoise` for static files, `gunicorn` for serving on Render.
 
@@ -89,9 +96,9 @@ npm run dev
 Vestr--Invest_Adventure_Simulator/
 ├── backend/
 │   ├── core/               # Django settings and root URLs
-│   ├── users/              # UserProfile model, registration & login API
+│   ├── users/              # UserProfile model, registration, login & XP update API
 │   ├── scenarios/          # Scenario model, progress tracking API
-│   ├── quizzes/            # Quiz and answer models (WIP)
+│   ├── quizzes/            # QuizQuestion/Option models and API
 │   ├── requirements.txt
 │   └── manage.py
 └── frontend/
@@ -104,6 +111,7 @@ Vestr--Invest_Adventure_Simulator/
     │   │   └── OnboardingModal.tsx # 4-step new user registration flow
     │   ├── pages/
     │   │   ├── Explore.tsx         # Live adventure listing page
+    │   │   ├── Quiz.tsx            # NEW: Interactive quiz/simulation page
     │   │   └── Profile.tsx         # User profile with XP badges & scenario history
     │   ├── types/                  # TypeScript interfaces (UserProfile, Scenario, etc.)
     │   ├── App.tsx                 # Root layout, navigation, modal state management
@@ -116,8 +124,9 @@ Vestr--Invest_Adventure_Simulator/
 
 ## 🔮 Roadmap
 
-- [ ] Quiz engine — branching question/answer flows within each scenario
-- [ ] XP awarded on quiz completion
-- [ ] Persistent session / JWT authentication
+- [x] Quiz engine — branching question/answer flows within each scenario
+- [x] XP awarded on quiz completion
+- [x] Permanent XP persistence in the database
+- [ ] Session / JWT authentication polish
 - [ ] Leaderboard
 - [ ] Mobile-responsive polish

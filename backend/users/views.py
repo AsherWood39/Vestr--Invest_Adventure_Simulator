@@ -57,3 +57,21 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             return Response(UserProfileSerializer(profile).data, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    @action(detail=False, methods=['post'])
+    def add_xp(self, request):
+        username = request.data.get('username')
+        amount = request.data.get('amount', 0)
+
+        if not username:
+            return Response({'error': 'Username required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            profile = UserProfile.objects.get(user__username=username)
+            profile.xp += int(amount)
+            profile.save()
+            return Response(UserProfileSerializer(profile).data, status=status.HTTP_200_OK)
+        except UserProfile.DoesNotExist:
+            return Response({'error': 'User profile not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
