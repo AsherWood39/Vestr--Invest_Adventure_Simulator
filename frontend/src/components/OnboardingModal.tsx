@@ -143,7 +143,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
             case 3:
                 return (
                     <div className="space-y-4">
-                        {['Family fund', 'Career break', 'Wealth building'].map(goal => (
+                        {['Family Fund', 'Career Break', 'Wealth Building'].map(goal => (
                             <button
                                 key={goal}
                                 onClick={() => setData({ ...data, goal })}
