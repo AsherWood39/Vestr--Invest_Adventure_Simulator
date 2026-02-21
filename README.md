@@ -1,132 +1,233 @@
-# Vestr: Invest Adventure Simulator 🚀
+<p align="center">
+  <img src="./img.png" alt="Project Banner" width="100%">
+</p>
 
-A web-based gamified investment simulator that guides users through branching financial adventures. Earn XP and unlock milestone badges by mastering concepts like diversification, compound interest, and portfolio strategy — transformed into engaging quests tailored for women building financial confidence.
+# Vestr - Invest_Adventure_Simulator 🎯
 
----
+## Basic Details
 
-## 🏗 Tech Stack
+### Team Name: Drest
 
-| Layer | Technology |
-|---|---|
-| **Frontend** | Vite + React 19 + TypeScript |
-| **Styling** | Tailwind CSS + Framer Motion |
-| **Backend** | Django 4.2 + Django REST Framework |
-| **Database** | SQLite (Local) / PostgreSQL (Production) |
-| **Deployment** | Render (Backend) + Vercel (Frontend) |
+### Team Members
+- Member 1: Athishta P A - Muthoot Institute of Technology and Science, Varikoli
+- Member 2: Malavika V - Muthoot Institute of Technology and Science, Varikoli
 
----
+### Hosted Project Link
+[https://vestr-invest-adventure-simulator-7ykl3fv7h.vercel.app/](https://vestr-invest-adventure-simulator-7ykl3fv7h.vercel.app/)
 
-## ✅ Features Implemented
+### Project Description
+Invest Adventure Simulator turns learning about investing into an interactive story game, where users make choices to "level up" their financial knowledge. It's designed for quick hackathon development using simple web tools.
 
-### Authentication & Onboarding
-- **Multi-step Onboarding Flow** — New users pick a username, password, avatar persona *(Professional Clara / Student Maya)*, experience level, and financial goal, all saved via the `/register/` API endpoint.
-- **Login Modal** — Returning users log in with username & password via the `/login/` API endpoint.
-- **Modal Navigation** — "Start Expedition" in the Login modal seamlessly transitions to the Onboarding modal.
+### The Problem statement
+Women face significant barriers to investing, including lower market participation (only 28% of women invest vs 42% men), confidence gaps, and life events like career breaks. Dry financial education often fails to engage or empower this demographic.
 
-### Navigation & Layout
-- **Sticky Navigation Bar** — Vestr logo, Explore, Profile, Logout, and XP indicator.
-- **XP Indicator** — Displays current XP in the header; disabled and greyed out when XP is 0.
-- **View Routing** — Client-side routing between `home`, `explore`, `quiz`, and `profile` views.
-
-### Explore Page
-- **Live Scenario Fetching** — Adventures fetched dynamically from the Django API (`/scenarios/list/`).
-- **Three Archetypes** — Niya *(Stable)*, Rachel *(Strategic)*, Tina *(Dynamic)*, each with unique artwork, tags, gradient, and description.
-- **Embark Flow** — Clicking a scenario card allows users to start their investment adventure.
-
-### 🎮 Interactive Quiz Engine (New!)
-- **Simulation Challenges** — Real-time branching questions tailored to each scenario (Niya, Rachel, or Tina).
-- **Gamified Feedback** — Instant "correct/incorrect" visual cues with Framer Motion animations.
-- **permanent XP Persistence** — Registered users automatically save their earned XP to the backend on completion.
-- **Guest mode** — Logged-out users can still take quizzes with a warning that results won't be saved.
-- **Reward summary** — Dynamic "Quest Complete" screen with trophy icon and XP summary.
-
-### Profile Page
-- **Live Profile Data** — Username, avatar, and goal fetched from the backend API.
-- **Scenarios Completed** — Displays thumbnails for all `SOLVED` scenarios; shows placeholder if none.
-- **XP-Based Badge System** — One milestone badge per 100 XP earned:
-  - XP < 100 → *"No badges received yet."*
-  - 100 XP → 🏅 100 XP badge
-  - 200 XP → 🏅 100 XP + 🏅 200 XP badges
-  - *…scales automatically with any XP value*
-
-### Backend API
-- **Users App** — `UserProfile` model; `/register/`, `/login/`, and `/add_xp/` endpoints.
-- **Scenarios App** — `Scenario` and `UserScenarioProgress` models; `/scenarios/list/` and `/scenarios/progress/` endpoints.
-- **Quizzes App** — `QuizQuestion` and `QuizOption` models; dynamic fetching via scenario ID.
-- **CORS** — Configured via `django-cors-headers` for local and production origins.
-- **Production Ready** — `whitenoise` for static files, `gunicorn` for serving on Render.
+### The Solution
+A web-based gamified app that guides users through branching investment adventures, earning XP and badges by mastering concepts like diversification and compound interest. Built as a choose-your-own-adventure with quizzes, it transforms finance education into engaging quests tailored for women.
 
 ---
 
-## 🚀 Getting Started
+## Technical Details
 
-### 1. Backend Setup (Django)
+### Technologies/Components Used
+
+**Software:**
+- Languages used: JavaScript, TypeScript, Python, HTML, CSS
+- Frameworks used: React 19, Django 4.2
+- Libraries used: Vite, Tailwind CSS, Framer Motion, Django REST Framework, Axios, WhiteNoise, Gunicorn
+- Tools used: VS Code, Git, Vercel (Frontend), Render (Backend)
+
+---
+
+## Features
+
+List the key features of your project:
+- **Character Onboarding**: New users select an avatar persona (Professional Clara / Student Maya) and set financial goals.
+- **Adventure Scenarios**: Branching stories featuring archetypes like Niya (Stable), Rachel (Strategic), and Tina (Dynamic).
+- **Interactive Quiz Engine**: Real-time branching questions tailored to each scenario with instant feedback and animations.
+- **XP & Badge System**: Earn XP and unlock milestone badges (100XP, 200XP, etc.) to track financial knowledge growth.
+
+---
+
+## Implementation
+
+### For Software:
+
+#### Installation
 ```bash
+# Backend Setup
 cd backend
 python -m venv venv
 venv\Scripts\activate        # Windows
 # source venv/bin/activate   # macOS/Linux
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py runserver
-```
-> API available at `http://127.0.0.1:8000/api/`
 
-### 2. Frontend Setup (React)
-```bash
-cd frontend
+# Frontend Setup
+cd ../frontend
 npm install
 ```
 
-Create a `.env` file in the `frontend/` directory:
-```env
-VITE_API_URL=http://127.0.0.1:8000/api
-```
-
+#### Run
 ```bash
+# Run Backend
+cd backend
+python manage.py runserver
+
+# Run Frontend
+cd ../frontend
 npm run dev
 ```
-> App available at `http://localhost:5173/`
 
 ---
 
-## 📁 Project Structure
+## Project Documentation
 
+### For Software:
+
+#### Screenshots (Add at least 3)
+
+![Screenshot1](home.png)
+*Home Page showing the Vestr interface*
+
+![Screenshot2](explore.png)
+*Adventure Explore Page with scenario archetypes*
+
+![Screenshot3](quiz.png)
+*Interactive Quiz interface*
+
+![Screenshot4](profile.png)
+*Profile Page showing user details*
+
+#### Diagrams
+
+**System Architecture:**
+
+```mermaid
+sequenceDiagram
+    participant U as User (React UI)
+    participant A as API Client (Axios/Fetch)
+    participant B as Django Backend
+    participant D as Database (PostgreSQL)
+
+    U->>A: Finish Quiz (Quest Complete)
+    A->>B: POST /api/users/add_xp/ (xp_amount)
+    B->>D: Update UserProfile total_xp
+    D-->>B: Success
+    B-->>A: Updates Profile
+    A-->>U: Trigger "Quest Complete" Animation
+    U->>A: Navigate to Profile
+    A->>B: GET /api/users/profile/
+    B-->>U: Return XP Total (e.g., 250 XP)
+    Note over U: Logic: Render 100XP & 200XP Badges
 ```
-Vestr--Invest_Adventure_Simulator/
-├── backend/
-│   ├── core/               # Django settings and root URLs
-│   ├── users/              # UserProfile model, registration, login & XP update API
-│   ├── scenarios/          # Scenario model, progress tracking API
-│   ├── quizzes/            # QuizQuestion/Option models and API
-│   ├── requirements.txt
-│   └── manage.py
-└── frontend/
-    ├── src/
-    │   ├── api/
-    │   │   └── apiClient.ts        # Centralized fetch utility with env-based base URL
-    │   ├── assets/                 # SVG character illustrations (Niya, Rachel, Tina, etc.)
-    │   ├── components/
-    │   │   ├── LoginModal.tsx      # Login form with modal transition to onboarding
-    │   │   └── OnboardingModal.tsx # 4-step new user registration flow
-    │   ├── pages/
-    │   │   ├── Explore.tsx         # Live adventure listing page
-    │   │   ├── Quiz.tsx            # NEW: Interactive quiz/simulation page
-    │   │   └── Profile.tsx         # User profile with XP badges & scenario history
-    │   ├── types/                  # TypeScript interfaces (UserProfile, Scenario, etc.)
-    │   ├── App.tsx                 # Root layout, navigation, modal state management
-    │   └── main.tsx
-    ├── .env                        # VITE_API_URL (not committed)
-    └── vite.config.ts
+*System Architecture: React Frontend communicates with Django REST API, backed by PostgreSQL/SQLite.*
+
+**Application Workflow:**
+
+```mermaid
+graph TD
+    A[Start: Landing Page] --> B{Logged In?}
+    B -- No --> C[Onboarding: Pick Persona & Goal]
+    B -- Yes --> D[Explore: Choose Adventure]
+    C --> D
+    
+    D --> E[Scenario Archetype: Niya/Rachel/Tina]
+    E --> F[Interactive Quiz Engine]
+    
+    F --> G{Branching Decision}
+    G -->|Path A| H[Intermediate Feedback]
+    G -->|Path B| H
+    
+    H --> I[Quest Complete: XP Awarded]
+    I --> J{User Type}
+    
+    J -- Registered --> K[Save to DB: /add_xp/]
+    J -- Guest --> L[Temporary Display Only]
+    
+    K --> M[Profile: Unlock Milestone Badges]
+    L --> M
 ```
+*Workflow: Onboarding -> Scenario Selection -> Branching Stories -> Quizzes -> XP/Badge Accrual.*
 
 ---
 
-## 🔮 Roadmap
+## Additional Documentation
 
-- [x] Quiz engine — branching question/answer flows within each scenario
-- [x] XP awarded on quiz completion
-- [x] Permanent XP persistence in the database
-- [ ] Session / JWT authentication polish
-- [ ] Leaderboard
-- [ ] Mobile-responsive polish
+### For Web Projects with Backend:
+
+#### API Documentation
+
+**Base URL:** `https://vestr-backend.onrender.com/api` (Production) / `http://127.0.0.1:8000/api` (Local)
+
+##### Endpoints
+
+**POST /login/**
+- **Description:** Authenticates a user and returns their profile details.
+- **Request Body:**
+```json
+{
+  "username": "user",
+  "password": "password"
+}
+```
+
+**POST /register/**
+- **Description:** Registers a new user with persona and goals.
+- **Request Body:**
+```json
+{
+  "username": "user",
+  "password": "password",
+  "avatar": "clara",
+  "goal": "retirement"
+}
+```
+
+**GET /scenarios/list/**
+- **Description:** Fetches all available investment adventure scenarios.
+
+---
+
+## Project Demo
+
+### Video
+ - [Link to Demo Video](https://drive.google.com/file/d/1TzXXwa7ILhBTU-JQBrXdzdSkHSNiNXVV/view?usp=sharing)
+
+*The video demonstrates the complete user journey from onboarding to completing a quest and earning a badge.*
+
+---
+
+## AI Tools Used (Optional - For Transparency Bonus)
+
+**Tool Used:** ChatGPT, Antigravity
+
+**Purpose:** 
+- Generated boilerplate React components
+- Debugging assistance for Django API endpoints
+- Documentation and implementation planning
+
+**Key Prompts Used:**
+- "Create a REST API endpoint for user authentication"
+- "Update the README.md with team details and project abstract"
+
+**Human Contributions:**
+- Architecture design and planning
+- Custom business logic implementation
+- UI/UX design decisions
+
+---
+
+## Team Contributions
+
+- Athishta P A: Frontend Development, UI/UX Design, API Integration
+- Malavika V: Backend Development, Database Schema, Quiz Logic
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+Made with ❤️ at TinkerHub
