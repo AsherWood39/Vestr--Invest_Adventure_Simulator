@@ -13,7 +13,7 @@
 - Member 2: Malavika V - Muthoot Institute of Technology and Science, Varikoli
 
 ### Hosted Project Link
-[https://vestr-invest-adventure-simulator-7ykl3fv7h.vercel.app/](https://vestr-invest-adventure-simulator-7ykl3fv7h.vercel.app/)
+ - [https://vestr-invest-adventure-simulator-7ykl3fv7h.vercel.app/](https://vestr-invest-adventure-simulator-7ykl3fv7h.vercel.app/)
 
 ### Project Description
 Invest Adventure Simulator turns learning about investing into an interactive story game, where users make choices to "level up" their financial knowledge. It's designed for quick hackathon development using simple web tools.
